@@ -1,5 +1,24 @@
-#This IS our main 
+#This IS our main population
 
+
+  
+(select distinct PAT_ID
+from tab_long_term_illness tlti
+where LTI_ICD_REASON = 'E11%')
+UNION
+(select distinct th.PAT_ID
+from tab_mso_ass_dgn mad, tab_hospitalisation th
+where th.ETA_NUM = mad.ETA_NUM
+and th.RSA_NUM = mad.RSA_NUM
+and DGN_ASS like 'E11%')
+UNION
+(select distinct th.PAT_ID
+from tab_hospitalisation th, tab_patient tp
+where th.PAT_ID = tp.PAT_ID
+and HOSP_MAIN_DGN like 'E11%'); #2457
+
+
+  
 SELECT ICD10_COD 
 from ths_diagnosis td ;
 
